@@ -1,35 +1,34 @@
-﻿using System;
+using System;
 using System.Reflection;
 
 namespace ClearRecent.Services
 {
-    internal class Types
-    {
-        internal PropertyInfo GetCountProp(Kind kind) =>
-            CreateMruListType(kind).GetProperty("Count");
+	internal static class Types
+	{
+		internal static PropertyInfo GetCountProp(Kind kind) =>
+			CreateMruListType(kind).GetProperty("Count");
 
-        internal PropertyInfo GetItemsProp(Kind kind) =>
-            CreateMruListType(kind).GetProperty("Items");
+		internal static PropertyInfo GetItemsProp(Kind kind) =>
+			CreateMruListType(kind).GetProperty("Items");
 
-        internal MethodInfo GetRemoveItemAtMethod(Kind kind) =>
-            CreateMruListType(kind).GetMethod("RemoveItemAt");
+		internal static MethodInfo GetRemoveItemAtMethod(Kind kind) =>
+			CreateMruListType(kind).GetMethod("RemoveItemAt");
 
-        internal PropertyInfo GetPathProp() =>
-            CreateType("FileSystemMruItem").GetProperty("Path");
+		internal static PropertyInfo GetPathProp() =>
+			CreateType("FileSystemMruItem").GetProperty("Path");
 
-        private static Type CreateMruListType(Kind kind)
-        {
-            return CreateType($"{kind.ToString()}MruList");
-        }
+		private static Type CreateMruListType(Kind kind)
+		{
+			return CreateType($"{kind}MruList");
+		}
 
-        private static Type CreateType(string name)
-        {
-            const string Namespace = "Microsoft.VisualStudio.PlatformUI";
-            const string Assembly = "Microsoft.VisualStudio.Shell.UI.Internal";
+		private static Type CreateType(string name)
+		{
+			const string Namespace = "Microsoft.VisualStudio.PlatformUI";
+			const string Assembly = "Microsoft.VisualStudio.Shell.UI.Internal";
 
-            return Type.GetType(
-                $"{Namespace}.{name}, {Assembly}",
-                throwOnError: true);
-        }
-    }
+			return Type.GetType($"{Namespace}.{name}, {Assembly}",
+								throwOnError: true);
+		}
+	}
 }
